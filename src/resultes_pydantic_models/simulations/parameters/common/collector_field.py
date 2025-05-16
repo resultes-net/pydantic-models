@@ -1,8 +1,7 @@
 import typing as _tp
 
 import pydantic as _pc
-
-from resultes_server.sqlmodel_models.simulations.parameters import common as _common
+import resultes_pydantic_models.simulations.parameters.common as _common
 
 
 class CollectorField(_pc.BaseModel):
