@@ -1,0 +1,6 @@
+-c constraints.txt
+
+-r test-3rd-party.in
+
+pip-compile-multi
+uv
