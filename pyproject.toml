@@ -14,10 +14,15 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
-dynamic = ["version"]
+dynamic = ["version", "dependencies"]
 
 [tool.setuptools.package-data]
 resultes_server = ["py.typed"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements/run-3rd-party.in"]}
+
+[tool.uv]
+config-settings = { editable_mode = "strict" }
+
+
