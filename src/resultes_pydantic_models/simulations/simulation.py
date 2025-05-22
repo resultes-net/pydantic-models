@@ -1,9 +1,8 @@
 import enum as _enum
 
 import pydantic as _pyd
+import resultes_pydantic_models.common as _pcom
 import resultes_pydantic_models.simulations.parameters.ttes as _pttes
-
-import resultes_server.database_utils.helpers as _dbh
 
 
 @_enum.verify(_enum.UNIQUE)
@@ -25,11 +24,11 @@ class Simulation(_pyd.BaseModel):
     parameters: _pttes.TtesParameters = _pyd.Field(discriminator="type")
 
     id: str | None
-    created_on: _dbh.AwarePastDatetime
+    created_on: _pcom.AwarePastDatetime
 
     user_id: str
 
-    object_storage_url: _pyd.HttpUrl | None = _dbh.HTTP_URL_FIELD
+    object_storage_url: _pyd.HttpUrl | None
 
     state: SimulationState = SimulationState.WAITING_FOR_VARIATIONS_CREATION
-    state_changed_on: _dbh.AwarePastDatetime = _dbh.UTC_NOW_FIELD
+    state_changed_on: _pcom.AwarePastDatetime
