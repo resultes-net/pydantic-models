@@ -9,4 +9,4 @@ class ObjectStoragePath(_pyd.BaseModel):
 
 class RunnerJob(_pyd.BaseModel):
     object_storage_path: ObjectStoragePath
-    script_to_run_path: _pl.Path
+    script_to_run: str
