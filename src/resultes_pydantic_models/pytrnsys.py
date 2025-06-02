@@ -20,4 +20,4 @@ class RunnerJob(_pyd.BaseModel):
     object_storage_path: ObjectStorageZipPath
     script_to_run: str
     working_dir: str | None = None
-    results_dir_to_list: str | None = None
+    results_glob_pattern: str | None = None
