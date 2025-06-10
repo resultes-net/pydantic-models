@@ -8,11 +8,14 @@ def utc_now() -> _dt.datetime:
     return _dt.datetime.now(_dt.UTC)
 
 
-def is_timezone_aware_in_past(datetime: _dt.datetime) -> bool:
+def is_timezone_aware_in_past(datetime: _dt.datetime) -> _dt.datetime:
     if datetime.tzinfo is None:
-        return False
+        raise ValueError("Datetime must have an explicit time zone.", datetime)
 
-    return datetime <= utc_now()
+    if datetime >= utc_now():
+        raise ValueError("Datetime must be in the past.", datetime)
+
+    return datetime
 
 
 AwarePastDatetime = _tp.Annotated[
