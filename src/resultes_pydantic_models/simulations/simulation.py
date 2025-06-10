@@ -15,8 +15,11 @@ class Type(_enum.Enum):
 @_enum.verify(_enum.UNIQUE)
 class SimulationState(_enum.Enum):
     WAITING_FOR_VARIATIONS_CREATION = "waiting-for-variations-creation"
+    CREATING_VARIATIONS = "creating-variations"
     WAITING_FOR_VARIATION_RUNS = "waiting-for-variation-runs"
+    RUNNING_VARIATIONS = "running-variations"
     WAITING_FOR_CROSS_VARIATION_PROCESSING = "waiting-for-cross-variation-processing"
+    CROSS_PROCESSING_VARIATIONS = "cross-processing-variations"
     DONE = "done"
 
 
