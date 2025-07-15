@@ -14,10 +14,7 @@ class VariationState(_enum.Enum):
 
 class CreateVariation(_pyd.BaseModel):
     simulation_id: str
-
-    object_storage_url: _pyd.HttpUrl
     relative_deck_file_path: _pl.PureWindowsPath
-    relative_process_script_path: _pl.PureWindowsPath
 
 
 class Variation(CreateVariation):
