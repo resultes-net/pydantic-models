@@ -1,5 +1,4 @@
 import enum as _enum
-import pathlib as _pl
 
 import pydantic as _pyd
 import resultes_pydantic_models.common as _pcom
@@ -13,7 +12,7 @@ class VariationState(_enum.Enum):
 
 
 class CreateVariation(_pyd.BaseModel):
-    relative_deck_file_path: _pl.PureWindowsPath
+    relative_deck_file_path: _pcom.PureWindowsPath
 
 
 class Variation(CreateVariation):
