@@ -1,5 +1,6 @@
 import datetime as _dt
 import typing as _tp
+import pathlib as _pl
 
 import pydantic as _pyd
 
@@ -20,4 +21,11 @@ def is_timezone_aware_in_past(datetime: _dt.datetime) -> _dt.datetime:
 
 AwarePastDatetime = _tp.Annotated[
     _dt.datetime, _pyd.AfterValidator(is_timezone_aware_in_past)
+]
+
+
+PureWindowsPath = _tp.Annotated[
+    _pl.PureWindowsPath,
+    _pyd.BeforeValidator(_pl.PureWindowsPath),
+    _pyd.PlainSerializer(str),
 ]
