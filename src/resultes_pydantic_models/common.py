@@ -26,6 +26,6 @@ AwarePastDatetime = _tp.Annotated[
 
 PureWindowsPath = _tp.Annotated[
     _pl.PureWindowsPath,
-    _pyd.BeforeValidator(_pl.PureWindowsPath),
+    _pyd.PlainValidator(_pl.PureWindowsPath),
     _pyd.PlainSerializer(str),
 ]
