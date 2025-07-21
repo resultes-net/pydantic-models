@@ -13,7 +13,6 @@ class VariationState(_enum.Enum):
 
 
 class CreateVariation(_pyd.BaseModel):
-    simulation_id: str
     relative_deck_file_path: _pl.PureWindowsPath
 
 
@@ -21,3 +20,4 @@ class Variation(CreateVariation):
     id: str | None
     created_on: _pcom.AwarePastDatetime
     state: VariationState = VariationState.WAITING
+    simulation_id: str
