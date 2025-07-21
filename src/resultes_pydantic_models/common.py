@@ -1,6 +1,6 @@
 import datetime as _dt
-import typing as _tp
 import pathlib as _pl
+import typing as _tp
 
 import pydantic as _pyd
 
@@ -24,8 +24,16 @@ AwarePastDatetime = _tp.Annotated[
 ]
 
 
+def _deserialize_pure_windows_path(serialized_path: str) -> _pl.PureWindowsPath:
+    return _pl.PureWindowsPath(serialized_path)
+
+
+def _serialize_pure_windows_path(path: _pl.PureWindowsPath) -> str:
+    return str(path)
+
+
 PureWindowsPath = _tp.Annotated[
     _pl.PureWindowsPath,
-    _pyd.PlainValidator(_pl.PureWindowsPath),
-    _pyd.PlainSerializer(str),
+    _pyd.PlainValidator(_deserialize_pure_windows_path),
+    _pyd.PlainSerializer(_serialize_pure_windows_path),
 ]
