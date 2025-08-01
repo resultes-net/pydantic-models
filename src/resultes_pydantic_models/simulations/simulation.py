@@ -27,10 +27,9 @@ class UpdateSimulation(_pyd.BaseModel):
     state: SimulationState = SimulationState.WAITING_FOR_VARIATIONS_CREATION
 
 
-class Simulation(UpdateSimulation):
+class SimulationBase(UpdateSimulation):
     parameters: _pttes.TtesParameters = _pyd.Field(discriminator="type")
 
-    id: str | None
     created_on: _pcom.AwarePastDatetime
 
     user_id: str
@@ -38,3 +37,7 @@ class Simulation(UpdateSimulation):
     object_storage_url: _pyd.HttpUrl | None
 
     state_changed_on: _pcom.AwarePastDatetime
+
+
+class Simulation(SimulationBase):
+    id: str
