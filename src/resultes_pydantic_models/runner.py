@@ -24,5 +24,5 @@ class RunnerJob(_pyd.BaseModel):
     object_storage_path: ObjectStorageZipPath
     program: _pcom.PureWindowsPath
     args: _cabc.Sequence[_pcom.PureWindowsPath | str]
-    working_dir: str | None = None
+    working_dir: _pcom.PureWindowsPath | None = None
     results_glob_pattern: str | None = None
