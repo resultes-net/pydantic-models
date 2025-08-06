@@ -1,3 +1,7 @@
+import collections.abc as _cabc
+
+import resultes_pydantic_models.common as _pcom
+
 import pydantic as _pyd
 
 
@@ -18,6 +22,7 @@ class ObjectStorageZipPath(_pyd.BaseModel):
 class RunnerJob(_pyd.BaseModel):
     id: str
     object_storage_path: ObjectStorageZipPath
-    script_to_run: str
+    program: _pcom.PureWindowsPath
+    args: _cabc.Sequence[_pcom.PureWindowsPath | str]
     working_dir: str | None = None
     results_glob_pattern: str | None = None
