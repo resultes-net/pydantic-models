@@ -24,10 +24,12 @@ class SimulationState(_enum.Enum):
 
 
 class UpdateSimulation(_pyd.BaseModel):
-    state: SimulationState = SimulationState.WAITING_FOR_VARIATIONS_CREATION
+    state: SimulationState
 
 
 class SimulationBase(UpdateSimulation):
+    state: SimulationState = SimulationState.WAITING_FOR_VARIATIONS_CREATION
+
     parameters: _pttes.TtesParameters = _pyd.Field(discriminator="type")
 
     created_on: _pcom.AwarePastDatetime
