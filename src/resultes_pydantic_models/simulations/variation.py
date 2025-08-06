@@ -20,9 +20,9 @@ class CreateVariation(_pyd.BaseModel):
 
 
 class VariationBase(CreateVariation, UpdateVariation):
+    created_on: _pcom.AwarePastDatetime
     state: VariationState = VariationState.WAITING
     state_changed_on: _pcom.AwarePastDatetime
-    created_on: _pcom.AwarePastDatetime
     simulation_id: str
 
 
