@@ -17,6 +17,9 @@ class UserModify(_pyd.BaseModel):
     new_plain_password: str
 
 
-class UserRead(UserBase):
-    id: str | None
+class UserReadBase(UserBase):
     disabled: bool
+
+
+class UserRead(UserReadBase):
+    id: str
