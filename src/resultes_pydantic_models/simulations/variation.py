@@ -16,7 +16,7 @@ class UpdateVariation(_pyd.BaseModel):
 
 
 class CreateVariation(_pyd.BaseModel):
-    relative_deck_file_path: _pcom.PureWindowsPath
+    relative_deck_file_containing_dir_path: _pcom.PureWindowsPath
 
 
 class VariationBase(CreateVariation, UpdateVariation):
