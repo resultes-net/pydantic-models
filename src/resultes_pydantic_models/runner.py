@@ -25,4 +25,5 @@ class RunnerJob(_pyd.BaseModel):
     program: _pcom.PureWindowsPath
     args: _cabc.Sequence[_pcom.PureWindowsPath | str]
     working_dir: _pcom.PureWindowsPath | None = None
+    relative_log_file_path: _pcom.PureWindowsPath | None = None
     results_glob_pattern: str | None = None
