@@ -2,6 +2,7 @@ import enum as _enum
 
 import pydantic as _pyd
 import resultes_pydantic_models.common as _pcom
+import resultes_pydantic_models.simulations.parameters.ptes as _pptes
 import resultes_pydantic_models.simulations.parameters.ttes as _pttes
 
 
@@ -30,7 +31,9 @@ class UpdateSimulation(_pyd.BaseModel):
 class SimulationBase(UpdateSimulation):
     state: SimulationState = SimulationState.WAITING_FOR_VARIATIONS_CREATION
 
-    parameters: _pttes.TtesParameters = _pyd.Field(discriminator="type")
+    parameters: _pttes.TtesParameters | _pptes.PtesParameters = _pyd.Field(
+        discriminator="type"
+    )
 
     created_on: _pcom.AwarePastDatetime
 
