@@ -4,6 +4,11 @@ import pydantic as _pyd
 import resultes_pydantic_models.common as _pcom
 
 
+class RunnerOptions(_pyd.BaseModel):
+    log_level: str
+    shall_remove_completed_jobs: bool
+
+
 class ObjectStorageZipPath(_pyd.BaseModel):
     container: str
     path: str
