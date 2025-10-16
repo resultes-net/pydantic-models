@@ -55,7 +55,7 @@ class SingleFileResult(_pyd.BaseModel):
 
 class MultipleFilesResult(_pyd.BaseModel):
     discriminator = "multiple"
-    rglob_patterns = _cabc.Sequence[str]
+    glob_patterns: _cabc.Sequence[str]
     object_storage_output_file_path: ObjectStorageOutputZipFilePath
 
 
@@ -76,4 +76,4 @@ class RunnerJob(_pyd.BaseModel):
     results: _cabc.Sequence[
         _tp.Annotated[Result, _pyd.Field(discriminator="discriminator")]
     ]
-    return_paths_rglob_pattern: str | None = None
+    return_paths_glob_pattern: str | None = None
