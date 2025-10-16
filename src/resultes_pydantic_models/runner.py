@@ -40,7 +40,7 @@ class ObjectStorageOutputZipFilePath(ObjectStorageZipFilePathBase):
 
 
 class SingleFileResult(_pyd.BaseModel):
-    discriminator = "single"
+    discriminator: _tp.Literal["single"] = "single"
     file_path: _pl.PureWindowsPath
     object_storage_output_file_path: ObjectStorageOutputFilePath
 
@@ -54,7 +54,7 @@ class SingleFileResult(_pyd.BaseModel):
 
 
 class MultipleFilesResult(_pyd.BaseModel):
-    discriminator = "multiple"
+    discriminator: _tp.Literal["multiple"] = "multiple"
     glob_patterns: _cabc.Sequence[str]
     object_storage_output_file_path: ObjectStorageOutputZipFilePath
 
