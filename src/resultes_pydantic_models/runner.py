@@ -17,7 +17,9 @@ class ObjectStorageFilePathBase(_pyd.BaseModel, _abc.ABC):
     path: str
 
 
-class ObjectStorageZipFilePathBase(ObjectStorageFilePathBase, _abc.ABC):
+class ObjectStorageInputZipFilePath(ObjectStorageFilePathBase):
+    version: str | None = None
+
     @_pyd.field_validator("path", mode="after")
     @classmethod
     def _validate_path(cls, value: str) -> str:
@@ -27,16 +29,18 @@ class ObjectStorageZipFilePathBase(ObjectStorageFilePathBase, _abc.ABC):
         return value
 
 
-class ObjectStorageInputZipFilePath(ObjectStorageZipFilePathBase):
-    version: str | None = None
-
-
 class ObjectStorageOutputFilePath(ObjectStorageFilePathBase):
     pass
 
 
-class ObjectStorageOutputZipFilePath(ObjectStorageZipFilePathBase):
-    pass
+class ObjectStorageOutputZipFilePath(ObjectStorageOutputFilePath):
+    @_pyd.field_validator("path", mode="after")
+    @classmethod
+    def _validate_path(cls, value: str) -> str:
+        if not value.endswith(".zip"):
+            raise ValueError("Path must point to .zip file.", value)
+
+        return value
 
 
 class SingleFileResult(_pyd.BaseModel):
