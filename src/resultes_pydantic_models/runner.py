@@ -45,7 +45,7 @@ class ObjectStorageOutputZipFilePath(ObjectStorageOutputFilePath):
 
 class SingleFileResult(_pyd.BaseModel):
     discriminator: _tp.Literal["single"] = "single"
-    file_path: _pl.PureWindowsPath
+    file_path: _pcom.PureWindowsPath
     object_storage_output_file_path: ObjectStorageOutputFilePath
 
     @_pyd.field_validator("file_path", mode="after")
