@@ -57,9 +57,14 @@ class SingleFileResult(_pyd.BaseModel):
         return value
 
 
+class GlobPatterns(_pyd.BaseModel):
+    include: _cabc.Sequence[str]
+    exclude: _cabc.Sequence[str]
+
+
 class MultipleFilesResult(_pyd.BaseModel):
     discriminator: _tp.Literal["multiple"] = "multiple"
-    glob_patterns: _cabc.Sequence[str]
+    glob_patterns: GlobPatterns
     object_storage_output_file_path: ObjectStorageOutputZipFilePath
 
 
