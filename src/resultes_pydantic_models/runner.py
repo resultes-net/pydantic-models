@@ -59,7 +59,7 @@ class SingleFileResult(_pyd.BaseModel):
 
 class GlobPatterns(_pyd.BaseModel):
     include: _cabc.Sequence[str]
-    exclude: _cabc.Sequence[str]
+    exclude: _cabc.Sequence[str] | None = None
 
 
 class MultipleFilesResult(_pyd.BaseModel):
