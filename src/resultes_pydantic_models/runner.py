@@ -17,9 +17,11 @@ class ObjectStorageFilePathBase(_pyd.BaseModel, _abc.ABC):
     path: str
 
 
-class ObjectStorageInputZipFilePath(ObjectStorageFilePathBase):
+class ObjectStorageInputFilePath(ObjectStorageFilePathBase):
     version: str | None = None
 
+
+class ObjectStorageInputZipFilePath(ObjectStorageInputFilePath):
     @_pyd.field_validator("path", mode="after")
     @classmethod
     def _validate_path(cls, value: str) -> str:
