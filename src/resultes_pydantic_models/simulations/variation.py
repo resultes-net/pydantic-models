@@ -19,12 +19,9 @@ class CreateVariation(_pyd.BaseModel):
     relative_deck_file_containing_dir_path: _pcom.PureWindowsPath
 
 
-class VariationBase(CreateVariation, UpdateVariation):
+class Variation(CreateVariation, UpdateVariation):
+    id: str
     created_on: _pcom.AwarePastDatetime
     state: VariationState = VariationState.WAITING
     state_changed_on: _pcom.AwarePastDatetime
     simulation_id: str
-
-
-class Variation(VariationBase):
-    id: str
