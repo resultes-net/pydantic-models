@@ -82,6 +82,7 @@ class Command(_pyd.BaseModel):
 
 class RunnerJob(_pyd.BaseModel):
     id: str
+    parameters: _pyd.JsonValue | None = None
     object_storage_input_path: ObjectStorageInputZipFilePath
     commands: _cabc.Sequence[Command]
     results: _cabc.Sequence[
