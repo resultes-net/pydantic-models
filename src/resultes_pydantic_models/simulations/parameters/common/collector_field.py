@@ -12,7 +12,7 @@ class PerformanceCoefficients(_pc.BaseModel):
 
 class CollectorField(_pc.BaseModel):
     area: _common.ScaledValue[
-        _tp.Literal["absolute_m2", "relative_to_demand_m2_per_GWh"]
+        _tp.Literal["absolute_m2", "relative_to_demand_m2_per_MWh"]
     ]
     inclination_deg: float
     orientation_east_west_deg: float
