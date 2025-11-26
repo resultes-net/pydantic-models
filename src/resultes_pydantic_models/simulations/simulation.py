@@ -41,8 +41,5 @@ class SimulationBase(UpdateSimulation):
 
     user_id: str
 
-    object_storage_url: _pyd.HttpUrl | None
-
-
 class Simulation(SimulationBase):
     variations: _cabc.Sequence[_pvar.Variation]
