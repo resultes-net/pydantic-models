@@ -89,3 +89,36 @@ class RunnerJob(_pyd.BaseModel):
         _tp.Annotated[Result, _pyd.Field(discriminator="discriminator")]
     ]
     return_paths_glob_pattern: str | None = None
+
+
+class JobProgress(_pyd.BaseModel):
+    progress: int
+
+    @_pyd.field_validator("progress", mode="after")
+    @classmethod
+    def _validate_progress(cls, value: int) -> int:
+        if not 0 <= value <= 100:
+            raise ValueError("Progress must between 0 and 100, inclusive.")
+
+        return value
+
+
+class JobSuccess(_pyd.BaseModel):
+    result: _tp.Any
+
+
+class JobError(_pyd.BaseModel):
+    message: str
+
+
+class LogMessage(_pyd.BaseModel):
+    level: int
+    message: str
+
+
+type JobSuccessfulPayload = LogMessage | JobProgress | JobSuccess
+
+
+class JobNotification(_pyd.BaseModel):
+    job_id: str
+    payload: JobSuccessfulPayload | JobError
