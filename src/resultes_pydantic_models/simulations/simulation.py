@@ -34,6 +34,7 @@ class SimulationBase(UpdateSimulation):
 
     state: SimulationState = SimulationState.WAITING_FOR_VARIATIONS_CREATION
     state_changed_on: _pcom.AwarePastDatetime
+    progress: _pyd.NonNegativeInt = 0
 
     parameters: _params.Parameters
 

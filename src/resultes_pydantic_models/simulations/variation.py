@@ -20,7 +20,7 @@ class Variation(CreateVariation):
     created_on: _pcom.AwarePastDatetime
     state: VariationState = VariationState.WAITING
     state_changed_on: _pcom.AwarePastDatetime
-    progress: int = 0
+    progress: _pyd.NonNegativeInt = 0
     simulation_id: str
 
     @_pyd.field_validator("progress", mode="after")
