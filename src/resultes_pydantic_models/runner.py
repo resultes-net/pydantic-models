@@ -4,7 +4,6 @@ import pathlib as _pl
 import typing as _tp
 
 import pydantic as _pyd
-import resultes_jsonrpc.jsonrpc.types as _rjjt
 import resultes_pydantic_models.common as _pcom
 
 
@@ -121,7 +120,7 @@ class JobProgress(_pyd.BaseModel):
 
 class JobSuccess(_pyd.BaseModel):
     type: _tp.Literal["success"] = "success"
-    result: _rjjt.Json | None
+    result: _pyd.JsonValue | None
 
 
 class JobError(_pyd.BaseModel):
@@ -157,7 +156,7 @@ class JobNotification(_pyd.BaseModel):
 
     @staticmethod
     def from_success_data(
-        job_id: str, data: _rjjt.Json | None = None
+        job_id: str, data: _pyd.JsonValue | None = None
     ) -> "JobNotification":
         payload = JobSuccess(result=data)
         notification = JobNotification(job_id=job_id, payload=payload)
