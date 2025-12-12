@@ -120,7 +120,7 @@ class JobProgress(_pyd.BaseModel):
 
 class JobSuccess(_pyd.BaseModel):
     type: _tp.Literal["success"] = "success"
-    result: _pyd.JsonValue | None
+    result: _pyd.JsonValue | None = None
 
 
 class JobError(_pyd.BaseModel):
@@ -144,20 +144,5 @@ class JobNotification(_pyd.BaseModel):
     @staticmethod
     def from_error(job_id: str, error_message: str) -> "JobNotification":
         payload = JobError(message=error_message)
-        notification = JobNotification(job_id=job_id, payload=payload)
-        return notification
-
-    @staticmethod
-    def from_success_base_model(
-        job_id: str, result: _pyd.BaseModel
-    ) -> "JobNotification":
-        data = result.model_dump()
-        return JobNotification.from_success_data(job_id, data)
-
-    @staticmethod
-    def from_success_data(
-        job_id: str, data: _pyd.JsonValue | None = None
-    ) -> "JobNotification":
-        payload = JobSuccess(result=data)
         notification = JobNotification(job_id=job_id, payload=payload)
         return notification
