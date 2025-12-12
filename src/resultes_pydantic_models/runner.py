@@ -4,6 +4,7 @@ import pathlib as _pl
 import typing as _tp
 
 import pydantic as _pyd
+import resultes_jsonrpc.jsonrpc.types as _rjjt
 import resultes_pydantic_models.common as _pcom
 
 
@@ -73,18 +74,31 @@ class MultipleFilesResult(_pyd.BaseModel):
 type Result = SingleFileResult | MultipleFilesResult
 
 
-class Command(_pyd.BaseModel):
+class GeneralCommand(_pyd.BaseModel):
     program: _pcom.PureWindowsPath
     args: _cabc.Sequence[str]
     working_dir: _pcom.PureWindowsPath | None = None
     relative_log_file_path: _pcom.PureWindowsPath | None = None
 
 
+class RunTrnsysCommand(_pyd.BaseModel):
+    relative_dck_file_path: _pcom.PureWindowsPath
+    n_total_timesteps: int
+
+    @_pyd.field_validator("n_total_timesteps")
+    @classmethod
+    def _validate_n_total_timesteps(cls, value: int) -> int:
+        if value <= 0:
+            raise ValueError("Total number of timesteps must be positive.", value)
+
+        return value
+
+
 class RunnerJob(_pyd.BaseModel):
     id: str
     parameters: _pyd.JsonValue | None = None
     object_storage_input_path: ObjectStorageInputZipFilePath
-    commands: _cabc.Sequence[Command]
+    commands: _cabc.Sequence[GeneralCommand]
     results: _cabc.Sequence[
         _tp.Annotated[Result, _pyd.Field(discriminator="discriminator")]
     ]
@@ -92,6 +106,8 @@ class RunnerJob(_pyd.BaseModel):
 
 
 class JobProgress(_pyd.BaseModel):
+    type: _tp.Literal["progress"] = "progress"
+
     progress: int
 
     @_pyd.field_validator("progress", mode="after")
@@ -104,14 +120,17 @@ class JobProgress(_pyd.BaseModel):
 
 
 class JobSuccess(_pyd.BaseModel):
-    result: _tp.Any
+    type: _tp.Literal["success"] = "success"
+    result: _rjjt.Json | None
 
 
 class JobError(_pyd.BaseModel):
+    type: _tp.Literal["error"] = "error"
     message: str
 
 
 class LogMessage(_pyd.BaseModel):
+    type: _tp.Literal["log-message"] = "log-message"
     level: int
     message: str
 
@@ -121,4 +140,25 @@ type JobSuccessfulPayload = LogMessage | JobProgress | JobSuccess
 
 class JobNotification(_pyd.BaseModel):
     job_id: str
-    payload: JobSuccessfulPayload | JobError
+    payload: JobSuccessfulPayload | JobError = _pyd.Field(discriminator="type")
+
+    @staticmethod
+    def from_error(job_id: str, error_message: str) -> "JobNotification":
+        payload = JobError(message=error_message)
+        notification = JobNotification(job_id=job_id, payload=payload)
+        return notification
+
+    @staticmethod
+    def from_success_base_model(
+        job_id: str, result: _pyd.BaseModel
+    ) -> "JobNotification":
+        data = result.model_dump()
+        return JobNotification.from_success_data(job_id, data)
+
+    @staticmethod
+    def from_success_data(
+        job_id: str, data: _rjjt.Json | None = None
+    ) -> "JobNotification":
+        payload = JobSuccess(result=data)
+        notification = JobNotification(job_id=job_id, payload=payload)
+        return notification
