@@ -74,6 +74,8 @@ type Result = SingleFileResult | MultipleFilesResult
 
 
 class GeneralCommand(_pyd.BaseModel):
+    discriminator: _tp.Literal["general-command"] = "general-command"
+
     program: _pcom.PureWindowsPath
     args: _cabc.Sequence[str]
     working_dir: _pcom.PureWindowsPath | None = None
@@ -81,6 +83,7 @@ class GeneralCommand(_pyd.BaseModel):
 
 
 class RunTrnsysCommand(_pyd.BaseModel):
+    discriminator: _tp.Literal["run-trnsys-command"] = "run-trnsys-command"
     trnsys_exe_path: _pcom.PureWindowsPath
     relative_deck_file_path: _pcom.PureWindowsPath
     relative_temperatures_step_prt_file_path: _pcom.PureWindowsPath
@@ -112,7 +115,9 @@ class RunnerJob(_pyd.BaseModel):
     id: str
     parameters: _pyd.JsonValue | None = None
     object_storage_input_path: ObjectStorageInputZipFilePath
-    commands: _cabc.Sequence[Command]
+    commands: _cabc.Sequence[
+        _tp.Annotated[Command, _pyd.Field(discriminator="discriminator")]
+    ]
     results: _cabc.Sequence[
         _tp.Annotated[Result, _pyd.Field(discriminator="discriminator")]
     ]
