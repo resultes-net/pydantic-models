@@ -52,7 +52,7 @@ class SingleFileResult(_pyd.BaseModel):
 
     @_pyd.field_validator("file_path", mode="after")
     @classmethod
-    def _validate_file_path(cls, value: _pl.PureWindowsPath) -> _pl.PureWindowsPath:
+    def _validate_file_path(cls, value: _pcom.PureWindowsPath) -> _pcom.PureWindowsPath:
         if value.is_absolute():
             raise ValueError("File path must not be absolute.", value)
 
@@ -81,7 +81,7 @@ class GeneralCommand(_pyd.BaseModel):
 
 
 class RunTrnsysCommand(_pyd.BaseModel):
-    trnsys_exe_path: _pl.PureWindowsPath
+    trnsys_exe_path: _pcom.PureWindowsPath
     relative_deck_file_path: _pcom.PureWindowsPath
     relative_temperatures_step_prt_file_path: _pcom.PureWindowsPath
     n_total_timesteps: int
@@ -97,8 +97,8 @@ class RunTrnsysCommand(_pyd.BaseModel):
     @_pyd.field_validator("trnsys_exe_path")
     @classmethod
     def _validate_trnsys_exe_path(
-        cls, value: _pl.PureWindowsPath
-    ) -> _pl.PureWindowsPath:
+        cls, value: _pcom.PureWindowsPath
+    ) -> _pcom.PureWindowsPath:
         if value.name != "TrnEXE.exe":
             raise ValueError("TRNSYS executable path must end in TrnEXE.exe", value)
 
@@ -117,19 +117,6 @@ class RunnerJob(_pyd.BaseModel):
         _tp.Annotated[Result, _pyd.Field(discriminator="discriminator")]
     ]
     return_paths_glob_pattern: str | None = None
-
-    @_pyd.model_validator(mode="after")
-    def _validate_ensure_trnsys_command_has_parameters(self) -> _tp.Self:
-        have_run_trnsys_command = any(
-            isinstance(c, RunTrnsysCommand) for c in self.commands
-        )
-
-        if have_run_trnsys_command and not self.parameters:
-            raise ValueError(
-                "Parameters must be given if any run-TRNSYS-command is given."
-            )
-
-        return self
 
 
 class JobProgress(_pyd.BaseModel):
