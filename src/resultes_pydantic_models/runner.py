@@ -82,7 +82,7 @@ class GeneralCommand(_pyd.BaseModel):
 
 class RunTrnsysCommand(_pyd.BaseModel):
     trnsys_exe_path: _pl.PureWindowsPath
-    relative_dck_file_path: _pcom.PureWindowsPath
+    relative_deck_file_path: _pcom.PureWindowsPath
     relative_temperatures_step_prt_file_path: _pcom.PureWindowsPath
     n_total_timesteps: int
 
