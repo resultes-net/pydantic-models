@@ -81,7 +81,9 @@ class GeneralCommand(_pyd.BaseModel):
 
 
 class RunTrnsysCommand(_pyd.BaseModel):
+    trnsys_exe_path: _pl.PureWindowsPath
     relative_dck_file_path: _pcom.PureWindowsPath
+    relative_temperatures_step_prt_file_path: _pcom.PureWindowsPath
     n_total_timesteps: int
 
     @_pyd.field_validator("n_total_timesteps")
@@ -92,22 +94,48 @@ class RunTrnsysCommand(_pyd.BaseModel):
 
         return value
 
+    @_pyd.field_validator("trnsys_exe_path")
+    @classmethod
+    def _validate_trnsys_exe_path(
+        cls, value: _pl.PureWindowsPath
+    ) -> _pl.PureWindowsPath:
+        if value.name != "TrnEXE.exe":
+            raise ValueError("TRNSYS executable path must end in TrnEXE.exe", value)
+
+        return value
+
+
+type Command = GeneralCommand | RunTrnsysCommand
+
 
 class RunnerJob(_pyd.BaseModel):
     id: str
     parameters: _pyd.JsonValue | None = None
     object_storage_input_path: ObjectStorageInputZipFilePath
-    commands: _cabc.Sequence[GeneralCommand]
+    commands: _cabc.Sequence[Command]
     results: _cabc.Sequence[
         _tp.Annotated[Result, _pyd.Field(discriminator="discriminator")]
     ]
     return_paths_glob_pattern: str | None = None
 
+    @_pyd.model_validator(mode="after")
+    def _validate_ensure_trnsys_command_has_parameters(self) -> _tp.Self:
+        have_run_trnsys_command = any(
+            isinstance(c, RunTrnsysCommand) for c in self.commands
+        )
+
+        if have_run_trnsys_command and not self.parameters:
+            raise ValueError(
+                "Parameters must be given if any run-TRNSYS-command is given."
+            )
+
+        return self
+
 
 class JobProgress(_pyd.BaseModel):
     type: _tp.Literal["progress"] = "progress"
-
     progress: int
+    command_number: int | None = None
 
     @_pyd.field_validator("progress", mode="after")
     @classmethod
@@ -126,12 +154,14 @@ class JobSuccess(_pyd.BaseModel):
 class JobError(_pyd.BaseModel):
     type: _tp.Literal["error"] = "error"
     message: str
+    command_number: int | None = None
 
 
 class LogMessage(_pyd.BaseModel):
     type: _tp.Literal["log-message"] = "log-message"
     level: int
     message: str
+    command_number: int | None = None
 
 
 type JobSuccessfulPayload = LogMessage | JobProgress | JobSuccess
