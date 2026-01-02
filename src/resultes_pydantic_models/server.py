@@ -13,4 +13,4 @@ class WaitingVariations(_pyd.BaseModel):
 
 
 class LatestLogin(_pyd.BaseModel):
-    on: _pcom.AwarePastDatetime | None
+    on: _pcom.AwarePastDatetime
