@@ -1,6 +1,5 @@
 import abc as _abc
 import collections.abc as _cabc
-import pathlib as _pl
 import typing as _tp
 
 import pydantic as _pyd
