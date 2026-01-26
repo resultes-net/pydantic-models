@@ -23,6 +23,7 @@ class SimulationState(_enum.Enum):
     WAITING_FOR_CROSS_VARIATION_PROCESSING = "waiting-for-cross-variation-processing"
     CROSS_PROCESSING_VARIATIONS = "cross-processing-variations"
     DONE = "done"
+    ERROR = "error"
 
 
 class UpdateSimulation(_pyd.BaseModel):
@@ -41,6 +42,7 @@ class SimulationBase(UpdateSimulation):
     created_on: _pcom.AwarePastDatetime
 
     user_id: str
+
 
 class Simulation(SimulationBase):
     variations: _cabc.Sequence[_pvar.Variation]

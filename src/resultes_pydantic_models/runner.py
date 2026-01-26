@@ -156,12 +156,12 @@ class LogMessage(_pyd.BaseModel):
     command_number: int | None = None
 
 
-type JobSuccessfulPayload = LogMessage | JobProgress | JobSuccess
+type JobPayload = JobProgress | JobSuccess | JobError | LogMessage
 
 
 class JobNotification(_pyd.BaseModel):
     job_id: str
-    payload: JobSuccessfulPayload | JobError = _pyd.Field(discriminator="type")
+    payload: JobPayload = _pyd.Field(discriminator="type")
 
     @staticmethod
     def from_error(job_id: str, error_message: str) -> "JobNotification":

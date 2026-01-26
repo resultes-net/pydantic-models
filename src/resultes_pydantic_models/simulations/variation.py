@@ -9,6 +9,7 @@ class VariationState(_enum.Enum):
     WAITING = "waiting"
     RUNNING = "running"
     DONE = "done"
+    ERROR = "error"
 
 
 class CreateVariation(_pyd.BaseModel):
