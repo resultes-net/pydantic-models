@@ -30,18 +30,21 @@ class UpdateSimulation(_pyd.BaseModel):
     state: SimulationState
 
 
-class SimulationBase(UpdateSimulation):
-    id: str
+class CreateSimulation(_pyd.BaseModel):
+    name: _pcom.MaxLenStr
+    parameters: _params.Parameters
+
+
+class SimulationBase(CreateSimulation, UpdateSimulation):
+    id: _pcom.MaxLenStr
 
     state: SimulationState = SimulationState.WAITING_FOR_VARIATIONS_CREATION
     state_changed_on: _pcom.AwarePastDatetime
     progress: _pyd.NonNegativeInt = 0
 
-    parameters: _params.Parameters
-
     created_on: _pcom.AwarePastDatetime
 
-    user_id: str
+    user_id: _pcom.MaxLenStr
 
 
 class Simulation(SimulationBase):

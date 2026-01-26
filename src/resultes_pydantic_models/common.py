@@ -23,6 +23,8 @@ AwarePastDatetime = _tp.Annotated[
     _dt.datetime, _pyd.AfterValidator(is_timezone_aware_in_past)
 ]
 
+MaxLenStr = _tp.Annotated[str, _pyd.StringConstraints(max_length=1024)]
+
 
 def _deserialize_pure_windows_path(serialized_path: str) -> _pl.PureWindowsPath:
     return _pl.PureWindowsPath(serialized_path)
