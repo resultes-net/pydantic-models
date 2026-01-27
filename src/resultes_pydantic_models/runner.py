@@ -48,6 +48,7 @@ class SingleFileResult(_pyd.BaseModel):
     discriminator: _tp.Literal["single"] = "single"
     file_path: _pcom.PureWindowsPath
     object_storage_output_file_path: ObjectStorageOutputFilePath
+    on_error: bool = False
 
     @_pyd.field_validator("file_path", mode="after")
     @classmethod
@@ -67,6 +68,7 @@ class MultipleFilesResult(_pyd.BaseModel):
     discriminator: _tp.Literal["multiple"] = "multiple"
     glob_patterns: GlobPatterns
     object_storage_output_file_path: ObjectStorageOutputZipFilePath
+    on_error: bool = False
 
 
 type Result = SingleFileResult | MultipleFilesResult
