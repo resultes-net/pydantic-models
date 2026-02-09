@@ -15,6 +15,14 @@ class ObjectStorageFilePathBase(_pyd.BaseModel, _abc.ABC):
     container: str
     path: str
 
+    @_pyd.field_validator("path", mode="after")
+    @classmethod
+    def _validate_path(cls, value: str) -> str:
+        if value.startswith("/"):
+            raise ValueError("Path must not begin with a slash.", value)
+
+        return value
+
 
 class ObjectStorageInputFilePath(ObjectStorageFilePathBase):
     version: str | None = None
