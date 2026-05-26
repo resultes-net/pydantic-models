@@ -13,7 +13,7 @@ class PreDefinedProfile(_pc.BaseModel):
 
 class UserProvidedProfile(_pc.BaseModel):
     profile_type: _tp.Literal["user-provided"]
-    hourly_heat_demand_kW: _tp.Annotated[
+    hourly_heat_demand_MW: _tp.Annotated[
         _cabc.Sequence[float],
         _pc.Field(min_length=N_HOURS_PER_YEAR, max_length=N_HOURS_PER_YEAR),
     ]
