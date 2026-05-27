@@ -6,20 +6,10 @@ import pydantic as _pc
 N_HOURS_PER_YEAR = 365 * 24
 
 
-class PreDefinedProfile(_pc.BaseModel):
-    profile_type: _tp.Literal["predefined"]
+class Demand(_pc.BaseModel):
     name: str
-
-
-class UserProvidedProfile(_pc.BaseModel):
-    profile_type: _tp.Literal["user-provided"]
+    scaling_factor: _pc.NonNegativeFloat
     hourly_heat_demand_MW: _tp.Annotated[
         _cabc.Sequence[float],
         _pc.Field(min_length=N_HOURS_PER_YEAR, max_length=N_HOURS_PER_YEAR),
     ]
-
-
-class Demand(_pc.BaseModel):
-    profile: _tp.Union[PreDefinedProfile, UserProvidedProfile] = _pc.Field(
-        discriminator="profile_type"
-    )

@@ -1,13 +1,12 @@
 import json as _json
 import pprint as _pp
 
-from typing import Literal
-
-from . import *
-from .parameters.thermal_energy_storage import *
 from ..common import *
 from ..common.collector_field import *
 from ..common.demand import *
+from ..common.time import *
+from . import *
+from .parameters.thermal_energy_storage import *
 
 JSON = r"""
 {
@@ -53,10 +52,12 @@ JSON = r"""
 """
 
 EXPECTED_PARAMETERS = TtesParameters(
-    demand=Demand(profile=PreDefinedProfile(profile_type="predefined", name="default")),
+    type="ttes",
+    time=Time(start=0, stop=365*24, dt_sim=1),
+    demand=Demand(name="dummy", hourly_heat_demand_MW=[0 for _ in range(365 * 24)]),
     collector_field=CollectorField(
-        area=ScaledValue[Literal["absolute_m2", "relative_to_demand_m2_per_GWh"]](
-            scaling="relative_to_demand_m2_per_GWh", value=4.0
+        area=ScaledValue[Literal["absolute_m2", "relative_to_demand_m2_per_MWh"]](
+            scaling="relative_to_demand_m2_per_MWh", value=4.0
         ),
         inclination_deg=45.0,
         orientation_east_west_deg=0.0,
