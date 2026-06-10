@@ -21,3 +21,4 @@ class CollectorField(_pc.BaseModel):
     nominal_massflow: _common.ScaledValue[
         _tp.Literal["absolute_kg_per_h", "relative_to_collector_area_kg_per_h_m2"]
     ]
+    output_temperature_setpoint_degC: float
