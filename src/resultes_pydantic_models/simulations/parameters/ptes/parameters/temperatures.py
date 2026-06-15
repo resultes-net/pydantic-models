@@ -6,3 +6,5 @@ class Temperatures(_pc.BaseModel):
     boiler_output_setpoint_degC: float
     heat_pump_output_setpoint_degC: float
     storage_maximum_degC: float
+    output_temperature_setpoint_degC: float
+
