@@ -15,7 +15,7 @@ class Type(_enum.Enum):
 
 
 @_enum.verify(_enum.UNIQUE)
-class SimulationState(_enum.Enum):
+class SimulationState(str, _enum.Enum):
     WAITING_FOR_VARIATIONS_CREATION = "waiting-for-variations-creation"
     CREATING_VARIATIONS = "creating-variations"
     WAITING_FOR_VARIATION_RUNS = "waiting-for-variation-runs"

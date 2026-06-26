@@ -5,7 +5,7 @@ import resultes_pydantic_models.common as _pcom
 
 
 @_enum.verify(_enum.UNIQUE)
-class VariationState(_enum.Enum):
+class VariationState(str, _enum.Enum):
     WAITING = "waiting"
     RUNNING = "running"
     DONE = "done"
