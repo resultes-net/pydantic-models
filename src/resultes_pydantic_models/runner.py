@@ -1,6 +1,7 @@
 import abc as _abc
 import collections.abc as _cabc
 import typing as _tp
+import datetime as _dt
 
 import pydantic as _pyd
 import resultes_pydantic_models.common as _pcom
@@ -131,6 +132,7 @@ class RunnerJob(_pyd.BaseModel):
         _tp.Annotated[Result, _pyd.Field(discriminator="discriminator")]
     ]
     return_paths_glob_pattern: str | None = None
+    timeout: _dt.timedelta | None = None
 
 
 class JobProgress(_pyd.BaseModel):
