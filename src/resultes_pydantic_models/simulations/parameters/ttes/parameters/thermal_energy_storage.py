@@ -1,6 +1,7 @@
 import typing as _tp
 
 import pydantic as _pc
+import resultes_pydantic_models.simulations.parameters.common as _common
 
 
 class TtesPortRelativeHeights(_pc.BaseModel):
@@ -36,9 +37,14 @@ class TtesSizeAbsolute(_pc.BaseModel):
 
 
 class TtesStorage(_pc.BaseModel):
-    size: _tp.Union[TtesSizeScaledHeight, TtesSizeScaledFloorArea, TtesSizeAbsolute] = (
-        _pc.Field(discriminator="size_type")
-    )
+    volume: _common.ScaledValue[
+        _tp.Literal[
+            "absolute_m3",
+            "relative_to_demand_m3_per_MWh",
+            "relative_to_collector_area_m3_per_m2",
+        ]
+    ]
+    height_to_diameter_ratio_1: float
     location: _tp.Literal["above-ground-free-standing", "below-ground-buried"]
     heat_conductance_kW_per_m2_per_K: float
     ports_relative_heights_1: TtesPortRelativeHeights = _pc.Field(

@@ -21,7 +21,7 @@ class PtesPortRelativeHeights(_pc.BaseModel):
 
 class PtesStorage(_pc.BaseModel):
     volume: _common.ScaledValue[
-        _tp.Literal["absolute_m3", "relative_to_demand_m3_per_MWh"]
+        _tp.Literal["absolute_m3", "relative_to_demand_m3_per_MWh", "relative_to_collector_area_m3_per_m2"]
     ]
     ports_relative_heights_1: PtesPortRelativeHeights = _pc.Field(
         description="The heights are relative: 1 means at the very top, 0.5 in the middle, etc."
