@@ -26,12 +26,22 @@ class SimulationState(str, _enum.Enum):
     ERROR = "error"
 
 
+@_enum.verify(_enum.UNIQUE)
+class Location(str, _enum.Enum):
+    BERLIN = "Berlin"
+    BRUSSELS = "Brussels"
+    COPENHAGEN = "Copenhagen"
+    MADRID = "Madrid"
+    ZURICH = "Zurich"
+
+
 class UpdateSimulation(_pyd.BaseModel):
     state: SimulationState
 
 
 class CreateSimulation(_pyd.BaseModel):
     name: _pcom.MaxLenStr
+    location: Location
     parameters: _params.Parameters
 
 
