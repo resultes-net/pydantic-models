@@ -5,7 +5,7 @@ import pydantic as _pc
 from ..common import collector_field as _cf
 from ..common import demand as _demand
 from ..common import time as _time
-from .parameters import temperatures as _temps
+from .parameters import control as _ctrl
 from .parameters import thermal_energy_storage as _tes
 
 
@@ -15,4 +15,4 @@ class PtesParameters(_pc.BaseModel):
     demand: _demand.Demand
     collector_field: _cf.CollectorField
     storage: _tes.PtesStorage
-    temperatures: _temps.Temperatures
+    control: _ctrl.Control
