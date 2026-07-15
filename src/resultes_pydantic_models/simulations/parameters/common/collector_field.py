@@ -1,3 +1,4 @@
+import collections.abc as _cabc
 import typing as _tp
 
 import pydantic as _pc
@@ -8,6 +9,19 @@ class PerformanceCoefficients(_pc.BaseModel):
     a0: float
     a1_kW_per_m2_per_K: float
     a2_kW_per_m2_per_K2: float
+
+
+class IAM(_pc.BaseModel):
+    name: str
+    transversal_angles_degC: _tp.Annotated[
+        _cabc.Sequence[float], _pc.Field(min_length=1, max_length=100)
+    ]
+    longitudinal_angles_degC: _tp.Annotated[
+        _cabc.Sequence[float], _pc.Field(min_length=1, max_length=100)
+    ]
+    values: _tp.Annotated[
+        _cabc.Sequence[float], _pc.Field(min_length=1, max_length=100 * 100)
+    ]
 
 
 class CollectorField(_pc.BaseModel):
@@ -21,3 +35,4 @@ class CollectorField(_pc.BaseModel):
     nominal_massflow: _common.ScaledValue[
         _tp.Literal["absolute_kg_per_h", "relative_to_collector_area_kg_per_h_m2"]
     ]
+    iam: IAM
