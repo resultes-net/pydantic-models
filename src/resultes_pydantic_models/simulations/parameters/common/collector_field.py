@@ -9,6 +9,9 @@ class PerformanceCoefficients(_pc.BaseModel):
     a0: float
     a1_kW_per_m2_per_K: float
     a2_kW_per_m2_per_K2: float
+    a3_kJ_per_m3_per_K: float
+    a4_1: float
+    a5_kJ_per_m2_per_K: float
 
 
 class IAM(_pc.BaseModel):
