@@ -63,7 +63,7 @@ EXPECTED_PARAMETERS = TtesParameters(
         orientation_east_west_deg=0.0,
         type="flat-plate",
         performance_coefficients=PerformanceCoefficients(
-            a0=0.857, a1_kW_per_m2_per_K=0.00416, a2_kW_per_m2_per_K2=8.9e-06
+            a0_1=0.857, a1_kW_per_m2_per_K=0.00416, a2_kW_per_m2_per_K2=8.9e-06
         ),
         nominal_massflow=ScaledValue[
             Literal["absolute_kg_per_h", "relative_to_collector_area_kg_per_h_m2"]
