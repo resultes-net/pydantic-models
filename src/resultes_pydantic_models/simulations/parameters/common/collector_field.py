@@ -26,6 +26,20 @@ class IAM(_pc.BaseModel):
         _cabc.Sequence[float], _pc.Field(min_length=1, max_length=100 * 100)
     ]
 
+    @_pc.model_validator(mode="after")
+    def _validate_n_values(self) -> _tp.Self:
+        expected_n_values = len(self.transversal_angles_degC) * len(
+            self.longitudinal_angles_degC
+        )
+        actual_n_values = len(self.values)
+
+        if actual_n_values != expected_n_values:
+            raise ValueError(
+                f"Expected {expected_n_values} values but got {actual_n_values} values."
+            )
+
+        return self
+
 
 class CollectorField(_pc.BaseModel):
     area: _common.ScaledValue[
