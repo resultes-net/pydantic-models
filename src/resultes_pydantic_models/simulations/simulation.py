@@ -53,7 +53,11 @@ class CreateSimulation(SimulationBase, WithParameters):
     pass
 
 
-class GetSimulation(SimulationBase, UpdateSimulation):
+class WithVariations(_pyd.BaseModel):
+    variations: _cabc.Sequence[_pvar.Variation]
+
+
+class GetSimulationBase(SimulationBase, UpdateSimulation):
     id: _pcom.MaxLenStr
 
     state: SimulationState = SimulationState.WAITING_FOR_VARIATIONS_CREATION
@@ -64,7 +68,9 @@ class GetSimulation(SimulationBase, UpdateSimulation):
 
     user_id: _pcom.MaxLenStr
 
-    variations: _cabc.Sequence[_pvar.Variation] = []
+
+class GetSimulation(GetSimulationBase, WithVariations):
+    pass
 
 
 class Simulation(GetSimulation, WithParameters):
