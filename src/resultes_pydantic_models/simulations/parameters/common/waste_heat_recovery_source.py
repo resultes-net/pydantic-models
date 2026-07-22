@@ -9,7 +9,7 @@ from resultes_pydantic_models.simulations.parameters.common.profiles import (
 
 class MassFlowRateAndTemperature(_pc.BaseModel):
     mass_flow_rate_kg_per_h: _pc.NonNegativeFloat
-    temperature_deg_C: _tp.Annotated[float, _pc.Field(ge=0, le=0)]
+    temperature_deg_C: _tp.Annotated[float, _pc.Field(ge=0, le=100)]
 
 
 class WasteHeatRecoverySource(_pc.BaseModel):
