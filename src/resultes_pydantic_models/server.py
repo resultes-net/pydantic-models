@@ -8,7 +8,7 @@ import resultes_pydantic_models.common as _pcom
 
 class WaitingVariations(_pyd.BaseModel):
     waiting_variations: _cabc.Sequence[_pvar.Variation]
-    associated_simulations: _cabc.Sequence[_psim.Simulation]
+    associated_simulations: _cabc.Sequence[_psim.GetSimulation]
     other_variations: _cabc.Sequence[_pvar.Variation]
 
 

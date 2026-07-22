@@ -39,13 +39,21 @@ class UpdateSimulation(_pyd.BaseModel):
     state: SimulationState
 
 
-class CreateSimulation(_pyd.BaseModel):
+class SimulationBase(_pyd.BaseModel):
     name: _pcom.MaxLenStr
     location: Location
+    type: Type
+
+
+class WithParameters(_pyd.BaseModel):
     parameters: _params.Parameters
 
 
-class SimulationBase(CreateSimulation, UpdateSimulation):
+class CreateSimulation(SimulationBase, WithParameters):
+    pass
+
+
+class GetSimulation(SimulationBase, UpdateSimulation):
     id: _pcom.MaxLenStr
 
     state: SimulationState = SimulationState.WAITING_FOR_VARIATIONS_CREATION
@@ -56,6 +64,8 @@ class SimulationBase(CreateSimulation, UpdateSimulation):
 
     user_id: _pcom.MaxLenStr
 
+    variations: _cabc.Sequence[_pvar.Variation] = []
 
-class Simulation(SimulationBase):
-    variations: _cabc.Sequence[_pvar.Variation]
+
+class Simulation(GetSimulation, WithParameters):
+    pass
