@@ -1,4 +1,3 @@
-import collections.abc as _cabc
 import typing as _tp
 
 import pydantic as _pc
@@ -17,14 +16,12 @@ class PerformanceCoefficients(_pc.BaseModel):
 class IAM(_pc.BaseModel):
     name: str
     transversal_angles_degC: _tp.Annotated[
-        _cabc.Sequence[float], _pc.Field(min_length=1, max_length=100)
+        list[float], _pc.Field(min_length=1, max_length=100)
     ]
     longitudinal_angles_degC: _tp.Annotated[
-        _cabc.Sequence[float], _pc.Field(min_length=1, max_length=100)
+        list[float], _pc.Field(min_length=1, max_length=100)
     ]
-    values: _tp.Annotated[
-        _cabc.Sequence[float], _pc.Field(min_length=1, max_length=100 * 100)
-    ]
+    values: _tp.Annotated[list[float], _pc.Field(min_length=1, max_length=100 * 100)]
 
     @_pc.model_validator(mode="after")
     def _validate_n_values(self) -> _tp.Self:

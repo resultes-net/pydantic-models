@@ -1,10 +1,8 @@
-import collections.abc as _cabc
 import typing as _tp
 
 import pydantic as _pc
-from resultes_pydantic_models.simulations.parameters.common.profiles import (
-    N_HOURS_PER_YEAR,
-)
+from resultes_pydantic_models.simulations.parameters.common.profiles import \
+    N_HOURS_PER_YEAR
 
 
 class MassFlowRateAndTemperature(_pc.BaseModel):
@@ -15,7 +13,7 @@ class MassFlowRateAndTemperature(_pc.BaseModel):
 class WasteHeatRecoverySource(_pc.BaseModel):
     name: str
     hourly_values: _tp.Annotated[
-        _cabc.Sequence[MassFlowRateAndTemperature],
+        list[MassFlowRateAndTemperature],
         _pc.Field(
             min_length=N_HOURS_PER_YEAR,
             max_length=N_HOURS_PER_YEAR,
