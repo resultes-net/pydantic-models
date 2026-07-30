@@ -19,18 +19,6 @@ class TtesPortRelativeHeights(_pc.BaseModel):
         return self
 
 
-class TtesSizeScaledHeight(_pc.BaseModel):
-    size_type: _tp.Literal["scaled_height"]
-    height_relative_to_demand_m_per_GWh: float
-    floor_area_m2: float
-
-
-class TtesSizeScaledFloorArea(_pc.BaseModel):
-    size_type: _tp.Literal["scaled-floor-area"]
-    height_m: float
-    floor_area_relative_to_demand_m2_per_GWh: float
-
-
 class TtesSizeAbsolute(_pc.BaseModel):
     size_type: _tp.Literal["absolute"]
     volume_m3: float
