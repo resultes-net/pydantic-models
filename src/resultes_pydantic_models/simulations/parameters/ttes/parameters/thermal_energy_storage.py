@@ -2,26 +2,7 @@ import typing as _tp
 
 import pydantic as _pc
 import resultes_pydantic_models.simulations.parameters.common as _common
-
-
-class TtesPortRelativeHeights(_pc.BaseModel):
-    """The heights ar relative: 1 is at the very top, 0.5 in the middle, etc."""
-
-    top: float
-    middle: float
-    bottom: float
-
-    @_pc.model_validator(mode="after")
-    def _validate_port_heights_order(self) -> _tp.Self:
-        if not (self.top > self.middle > self.bottom):
-            raise ValueError("Port heights must decrease from top to bottom.")
-
-        return self
-
-
-class TtesSizeAbsolute(_pc.BaseModel):
-    size_type: _tp.Literal["absolute"]
-    volume_m3: float
+import resultes_pydantic_models.simulations.parameters.common.tes_relative_port_heights as _trph
 
 
 class TtesStorage(_pc.BaseModel):
@@ -35,6 +16,6 @@ class TtesStorage(_pc.BaseModel):
     height_to_diameter_ratio_1: float
     location: _tp.Literal["above-ground-free-standing", "below-ground-buried"]
     heat_conductance_kW_per_m2_per_K: float
-    ports_relative_heights_1: TtesPortRelativeHeights = _pc.Field(
+    ports_relative_heights_1: _trph.TesRelativePortHeights = _pc.Field(
         description="The heights are relative: 1 means at the very top, 0.5 in the middle, etc."
     )
