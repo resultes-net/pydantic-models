@@ -1,5 +1,5 @@
-import collections.abc as _cabc
 import enum as _enum
+import typing as _tp
 
 import pydantic as _pyd
 import resultes_pydantic_models.common as _pcom
@@ -50,7 +50,9 @@ class WithParameters(_pyd.BaseModel):
 
 
 class CreateSimulation(SimulationBase, WithParameters):
-    pass
+    @_pyd.model_validator(mode="after")
+    def _ensure_types_agree(self) -> _tp.Self:
+        return _ensure_types_agree(self)
 
 
 class GetSimulation(SimulationBase, UpdateSimulation):
@@ -74,4 +76,23 @@ class Simulation(GetSimulation, WithVariations):
 
 
 class SimulationWithParams(Simulation, WithParameters):
-    pass
+    @_pyd.model_validator(mode="after")
+    def _ensure_types_agree(self) -> _tp.Self:
+        return _ensure_types_agree(self)
+
+
+class _HasTwoTypes(_tp.Protocol):
+    type: Type
+    parameters: _params.Parameters
+
+
+def _ensure_types_agree[S: _HasTwoTypes](simulation: S) -> S:
+    simulation_type = simulation.type.value
+    parameters_type = simulation.parameters.values.type
+
+    if simulation_type != parameters_type:
+        raise ValueError(
+            f"The system type given on the simulation ({simulation_type}) and in the parameters ({parameters_type}) must agree."
+        )
+
+    return simulation
