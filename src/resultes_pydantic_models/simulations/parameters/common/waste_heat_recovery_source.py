@@ -1,8 +1,8 @@
 import typing as _tp
 
 import pydantic as _pc
-from resultes_pydantic_models.simulations.parameters.common.profiles import \
-    N_HOURS_PER_YEAR
+
+from .profiles import N_HOURS_PER_YEAR
 
 
 class WasteHeatRecoverySource(_pc.BaseModel):

@@ -1,7 +1,7 @@
 import typing as _tp
 
 import pydantic as _pc
-import resultes_pydantic_models.simulations.parameters.common as _common
+import resultes_pydantic_models.simulations.parameters.common.scaled_value as _common
 import resultes_pydantic_models.simulations.parameters.common.tes_relative_port_heights as _trph
 
 
