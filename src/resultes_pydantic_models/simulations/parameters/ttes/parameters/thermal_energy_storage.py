@@ -14,8 +14,7 @@ class TtesStorage(_pc.BaseModel):
         ]
     ]
     height_to_diameter_ratio_1: float
-    location: _tp.Literal["above-ground-free-standing", "below-ground-buried"]
-    heat_conductance_kW_per_m2_per_K: float
+    insulation_thickness_cm: float
     ports_relative_heights_1: _trph.TesRelativePortHeights = _pc.Field(
         description="The heights are relative: 1 means at the very top, 0.5 in the middle, etc."
     )
