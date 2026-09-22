@@ -33,6 +33,15 @@ class Location(str, _enum.Enum):
     COPENHAGEN = "Copenhagen"
     MADRID = "Madrid"
     ZURICH = "Zurich"
+    ALPINE = "alpine"
+    COLD = "cold"
+    DRY = "dry"
+    HOT = "hot"
+    MEDITERRANEAN = "mediterranean"
+    SUBTROPIC = "subtropic"
+    TEMPERATE = "temperate"
+    TROPICAL = "tropical"
+    WET = "wet"
 
 
 class UpdateSimulation(_pyd.BaseModel):
