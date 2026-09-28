@@ -28,10 +28,6 @@ class SimulationState(str, _enum.Enum):
 
 @_enum.verify(_enum.UNIQUE)
 class Location(str, _enum.Enum):
-    BERLIN = "Berlin"
-    BRUSSELS = "Brussels"
-    COPENHAGEN = "Copenhagen"
-    MADRID = "Madrid"
     ZURICH = "Zurich"
     ALPINE = "alpine"
     COLD = "cold"
@@ -44,13 +40,20 @@ class Location(str, _enum.Enum):
     WET = "wet"
 
 
+class UploadedUserWeatherDataFile:
+    name: str
+
+
+type WeatherData = Location | UploadedUserWeatherDataFile
+
+
 class UpdateSimulation(_pyd.BaseModel):
     state: SimulationState
 
 
 class SimulationBase(_pyd.BaseModel):
     name: _pcom.MaxLenStr
-    location: Location
+    weather_data: WeatherData
     type: Type
 
 
