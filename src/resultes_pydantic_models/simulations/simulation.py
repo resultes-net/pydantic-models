@@ -26,34 +26,13 @@ class SimulationState(str, _enum.Enum):
     ERROR = "error"
 
 
-@_enum.verify(_enum.UNIQUE)
-class Location(str, _enum.Enum):
-    ZURICH = "Zurich"
-    ALPINE = "alpine"
-    COLD = "cold"
-    DRY = "dry"
-    HOT = "hot"
-    MEDITERRANEAN = "mediterranean"
-    SUBTROPIC = "subtropic"
-    TEMPERATE = "temperate"
-    TROPICAL = "tropical"
-    WET = "wet"
-
-
-class UploadedUserWeatherDataFile:
-    name: str
-
-
-type WeatherData = Location | UploadedUserWeatherDataFile
-
-
 class UpdateSimulation(_pyd.BaseModel):
     state: SimulationState
 
 
 class SimulationBase(_pyd.BaseModel):
     name: _pcom.MaxLenStr
-    weather_data: WeatherData
+    weather_data_id: _pcom.MaxLenStr
     type: Type
 
 
