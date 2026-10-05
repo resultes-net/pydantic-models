@@ -1,9 +1,11 @@
 import abc as _abc
 import collections.abc as _cabc
-import typing as _tp
 import datetime as _dt
+import pathlib as _pl
+import typing as _tp
 
 import pydantic as _pyd
+
 import resultes_pydantic_models.common as _pcom
 
 
@@ -53,6 +55,44 @@ class ObjectStorageOutputZipFilePath(ObjectStorageOutputFilePath):
         return value
 
 
+def _validate_relative_file_path(
+    value: _pcom.PureWindowsPath,
+) -> _pcom.PureWindowsPath:
+    if value.is_absolute():
+        raise ValueError("File path must not be absolute.", value)
+
+    return value
+
+
+class SingleFileInput(_pyd.BaseModel):
+    """Downloaded to `file_path`, relative to the working directory."""
+
+    discriminator: _tp.Literal["single"] = "single"
+    object_storage_input_file_path: ObjectStorageInputFilePath
+    file_path: _pcom.PureWindowsPath
+
+    @_pyd.field_validator("file_path", mode="after")
+    @classmethod
+    def _validate_file_path(cls, value: _pcom.PureWindowsPath) -> _pcom.PureWindowsPath:
+        return _validate_relative_file_path(value)
+
+
+class MultipleFilesInput(_pyd.BaseModel):
+    """Downloaded and extracted into `dir_path`, relative to the working directory."""
+
+    discriminator: _tp.Literal["multiple"] = "multiple"
+    object_storage_input_file_path: ObjectStorageInputZipFilePath
+    dir_path: _pcom.PureWindowsPath = _pl.PureWindowsPath(".")
+
+    @_pyd.field_validator("dir_path", mode="after")
+    @classmethod
+    def _validate_dir_path(cls, value: _pcom.PureWindowsPath) -> _pcom.PureWindowsPath:
+        return _validate_relative_file_path(value)
+
+
+type Input = SingleFileInput | MultipleFilesInput
+
+
 class SingleFileResult(_pyd.BaseModel):
     discriminator: _tp.Literal["single"] = "single"
     file_path: _pcom.PureWindowsPath
@@ -62,10 +102,7 @@ class SingleFileResult(_pyd.BaseModel):
     @_pyd.field_validator("file_path", mode="after")
     @classmethod
     def _validate_file_path(cls, value: _pcom.PureWindowsPath) -> _pcom.PureWindowsPath:
-        if value.is_absolute():
-            raise ValueError("File path must not be absolute.", value)
-
-        return value
+        return _validate_relative_file_path(value)
 
 
 class GlobPatterns(_pyd.BaseModel):
@@ -124,7 +161,10 @@ type Command = GeneralCommand | RunTrnsysCommand
 class RunnerJob(_pyd.BaseModel):
     id: str
     parameters: _pyd.JsonValue | None = None
-    object_storage_input_path: ObjectStorageInputZipFilePath
+    # Processed in order, so later inputs overwrite files of earlier ones.
+    inputs: _cabc.Sequence[
+        _tp.Annotated[Input, _pyd.Field(discriminator="discriminator")]
+    ]
     commands: _cabc.Sequence[
         _tp.Annotated[Command, _pyd.Field(discriminator="discriminator")]
     ]
