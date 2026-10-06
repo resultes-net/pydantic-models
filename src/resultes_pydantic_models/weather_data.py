@@ -8,7 +8,7 @@ import resultes_pydantic_models.runner as _prunner
 
 # Shared weather data live next to the systems code.
 SHARED_OBJECT_STORAGE_CONTAINER = "resultes-static"
-USER_UPLOADED_OBJECT_STORAGE_CONTAINER = "user-data"
+USER_UPLOADED_OBJECT_STORAGE_CONTAINER = "resultes-user-data"
 
 
 @_enum.verify(_enum.UNIQUE)

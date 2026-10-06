@@ -27,7 +27,7 @@ def test_get_object_storage_output_file_path_of_user_weather_data() -> None:
 
     path = _pwd.get_object_storage_output_file_path(weather_data)
 
-    assert path.container == "user-data"
+    assert path.container == "resultes-user-data"
     assert path.path == "b4f29e7a01/weather-data/5e0a17c3d2.zip"
 
 
